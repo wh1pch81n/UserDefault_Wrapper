@@ -46,6 +46,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         BundleUserDefaults.shared.m = "cat"
+        
+        var path: [AnyObject] = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true) as [AnyObject]
+        let folder: String = path[0] as! String
+        print("Your NSUserDefaults are stored in this folder: \(folder)/Preferences")
+        print(BundleUserDefaults.shared.suiteName)
     }
     
 }
