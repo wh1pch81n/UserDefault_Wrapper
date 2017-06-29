@@ -8,18 +8,45 @@
 
 import UIKit
 
+// Base class that all user defaults inherit from
+class MyUserDefaults: NSObject {
+    public let suiteName: String
+    public let user_default: UserDefaults
+    init(suiteName: String) {
+        self.suiteName = suiteName
+        user_default = UserDefaults(suiteName: suiteName)!
+    }
+    
+    func removeSuite() {
+        user_default.removeSuite(named: suiteName)
+    }
+    
+}
+
+// Bundle specific.
+class BundleUserDefaults: MyUserDefaults {
+    // includes a shared static property with the suiteName the same as the class name
+    static let shared = BundleUserDefaults(suiteName: "BundleUserDefaults")
+    
+    // accessor methods. Use of #function assumes the string "m"
+    var m: String {
+        get { return user_default.string(forKey: #function) ?? "" }
+        set { user_default.set(newValue, forKey: #function) }
+    }
+    
+    var x: Int {
+        get { return user_default.integer(forKey: #function) }
+        set { user_default.set(newValue, forKey: #function) }
+    }
+}
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        BundleUserDefaults.shared.m = "cat"
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+    
 }
 
